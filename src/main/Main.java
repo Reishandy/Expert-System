@@ -34,6 +34,8 @@ public class Main {
             System.out.println("3. Add answer");
             System.out.println("4. Display rules");
             System.out.println("5. Display answers");
+            System.out.println("6. Clear rules");
+            System.out.println("7. Clear answers");
             System.out.println("type q to quit program");
             System.out.println("-------------------");
             System.out.print("> ");
@@ -45,7 +47,20 @@ public class Main {
             if (input.equals("3")) addAnswer();
             if (input.equals("4")) displayRules();
             if (input.equals("5")) displayAnswers();
+            if (input.equals("6")) clear(true);
+            if (input.equals("7")) clear(false);
         }
+    }
+
+    public static void clear(boolean type) {
+        try {
+            if (type) jsonHandler.clear("rule.json");
+            else jsonHandler.clear("answer.json");
+        } catch (IOException e) {
+            System.out.println("Something went wrong");
+            System.out.println("Error: " + e.getMessage());
+        }
+
     }
 
     public static void start() {
@@ -112,7 +127,7 @@ public class Main {
         }
     }
 
-    private static void loadRule() {
+    public static void loadRule() {
         ArrayList<Rule> ruleArrayList;
         try {
             ruleArrayList = jsonHandler.getRuleJson("rule.json");
