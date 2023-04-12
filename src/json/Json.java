@@ -1,3 +1,7 @@
+/*
+ * Author: Reishandy
+ */
+
 package json;
 
 import answer.Answer;

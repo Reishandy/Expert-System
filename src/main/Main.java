@@ -1,3 +1,7 @@
+/*
+ * Author: Reishandy
+ */
+
 package main;
 
 import rule.*;

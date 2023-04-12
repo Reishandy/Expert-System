@@ -1,3 +1,7 @@
+/*
+ * Author: Reishandy
+ */
+
 package rule;
 
 import java.util.ArrayList;

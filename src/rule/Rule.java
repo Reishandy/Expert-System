@@ -1,3 +1,7 @@
+/*
+ * Author: Reishandy
+ */
+
 package rule;
 
 public record Rule(String id, String rule) {
