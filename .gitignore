@@ -53,4 +53,4 @@ bin/
 .DS_Store
 
 ### Actual ###
-/src/logic/test.java
+/src/rule/test.java

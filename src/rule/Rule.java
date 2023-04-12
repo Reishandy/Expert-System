@@ -1,4 +1,4 @@
-package logic;
+package rule;
 
 public record Rule(String id, String rule) {
     public Rule {
