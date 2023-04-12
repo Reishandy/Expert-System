@@ -27,5 +27,11 @@ public class test {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        try {
+            jsonHandler.clear("rule.json");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

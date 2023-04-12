@@ -54,3 +54,6 @@ bin/
 
 ### Actual ###
 /src/rule/test.java
+/src/json/test.java
+/src/json/rule.json
+/src/answer/test.java
