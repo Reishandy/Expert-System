@@ -13,13 +13,15 @@ public class Answers {
 
     public ArrayList<Answer> validate(ArrayList<String> resultId) {
         ArrayList<Answer> resultValidate = new ArrayList<>();
-
         for (Answer answer: answers) {
             if(answer.answerId().containsAll(resultId)) {
                 resultValidate.add(answer);
             }
         }
-
         return resultValidate;
+    }
+
+    public ArrayList<Answer> getAnswers() {
+        return answers;
     }
 }

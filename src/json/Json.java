@@ -1,5 +1,6 @@
 package json;
 
+import answer.Answer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import rule.Rule;
@@ -46,5 +47,16 @@ public class Json {
     public void storeRuleJson(ArrayList<Rule> rules, String fileName) throws IOException {
         setPath(fileName);
         write(gson.toJson(rules));
+    }
+
+    public ArrayList<Answer> getAnswerJson(String filename) throws FileNotFoundException {
+        setPath(filename);
+        Type answerListType = new TypeToken<ArrayList<Answer>>(){}.getType();
+        return gson.fromJson(read(), answerListType);
+    }
+
+    public void storeAnswerJson(ArrayList<Answer> answers, String fileName) throws IOException {
+        setPath(fileName);
+        write(gson.toJson(answers));
     }
 }

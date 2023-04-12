@@ -41,4 +41,8 @@ public class Rules {
     public ArrayList<String> getResultId() {
         return resultId;
     }
+
+    public ArrayList<Rule> getRules() {
+        return rules;
+    }
 }
