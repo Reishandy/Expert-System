@@ -1,7 +1,8 @@
-package rule;
+package json;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import rule.Rule;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -18,7 +19,7 @@ public class Json {
 
     private void setPath(String file) {
         path = Paths.get(file).toAbsolutePath().toString()
-                .replace(file, "\\src\\rule\\" + file);
+                .replace(file, "\\src\\json\\" + file);
     }
 
     private Reader read() throws FileNotFoundException {
@@ -29,6 +30,11 @@ public class Json {
         FileWriter file = new FileWriter(path);
         file.write(content);
         file.close();
+    }
+
+    public void clear(String fileName) throws IOException {
+        setPath(fileName);
+        write("");
     }
 
     public ArrayList<Rule> getRuleJson(String fileName) throws FileNotFoundException {

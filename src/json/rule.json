@@ -1,0 +1,26 @@
+[
+  {
+    "id": "a",
+    "rule": "is this a?"
+  },
+  {
+    "id": "b",
+    "rule": "is this b?"
+  },
+  {
+    "id": "c",
+    "rule": "is this c?"
+  },
+  {
+    "id": "c",
+    "rule": "is this c?"
+  },
+  {
+    "id": "ayam",
+    "rule": "Goreng?"
+  },
+  {
+    "id": "ayam",
+    "rule": "Goreng?"
+  }
+]
