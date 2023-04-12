@@ -25,6 +25,10 @@ public class Rules {
         rules.add(rule);
     }
 
+    public void addRule(ArrayList<Rule> rules) {
+        this.rules.addAll(rules);
+    }
+
     public void check(boolean status) {
         if (status) {
             String id = rules.get(current).id();
@@ -36,6 +40,11 @@ public class Rules {
         if (current + 1 == getMaxRule()) {return false;}
         current++;
         return true;
+    }
+
+    public void reset() {
+        current = 0;
+        resultId.clear();
     }
 
     public ArrayList<String> getResultId() {
