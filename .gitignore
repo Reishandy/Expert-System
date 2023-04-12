@@ -53,4 +53,9 @@ bin/
 .DS_Store
 
 ### Actual ###
-/src/logic/test.java
+/src/rule/test.java
+/src/json/test.java
+/src/json/test1.java
+/src/json/rule.json
+/src/json/answer.json
+/src/answer/test.java

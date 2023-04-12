@@ -1,4 +1,8 @@
-package logic;
+/*
+ * Author: Reishandy
+ */
+
+package rule;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,10 @@ public class Rules {
         rules.add(rule);
     }
 
+    public void addRule(ArrayList<Rule> rules) {
+        this.rules.addAll(rules);
+    }
+
     public void check(boolean status) {
         if (status) {
             String id = rules.get(current).id();
@@ -38,7 +46,16 @@ public class Rules {
         return true;
     }
 
+    public void reset() {
+        current = 0;
+        resultId.clear();
+    }
+
     public ArrayList<String> getResultId() {
         return resultId;
+    }
+
+    public ArrayList<Rule> getRules() {
+        return rules;
     }
 }
