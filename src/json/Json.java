@@ -13,6 +13,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Json {
     private final Gson gson;
@@ -62,5 +63,16 @@ public class Json {
     public void storeAnswerJson(ArrayList<Answer> answers, String fileName) throws IOException {
         setPath(fileName);
         write(gson.toJson(answers));
+    }
+
+    public HashMap<Integer, ArrayList<Answer>> getHistoryJson(String fileName) throws FileNotFoundException {
+        setPath(fileName);
+        Type historyType = new TypeToken<HashMap<Integer, ArrayList<Answer>>>(){}.getType();
+        return gson.fromJson(read(), historyType);
+    }
+
+    public void storeHistoryJson (HashMap<Integer, ArrayList<Answer>> history, String fileName) throws IOException {
+        setPath(fileName);
+        write(gson.toJson(history));
     }
 }

@@ -30,6 +30,7 @@ public class Rules {
     }
 
     public void addRule(ArrayList<Rule> rules) {
+        if (rules == null) return;
         this.rules.addAll(rules);
     }
 
@@ -57,5 +58,13 @@ public class Rules {
 
     public ArrayList<Rule> getRules() {
         return rules;
+    }
+
+    public void clear() {
+        rules.clear();
+    }
+
+    public boolean isEmpty() {
+        return rules.isEmpty();
     }
 }
