@@ -56,6 +56,8 @@ bin/
 /src/rule/test.java
 /src/json/test.java
 /src/json/test1.java
+/src/json/test2.java
 /src/json/rule.json
 /src/json/answer.json
+/src/json/history.json
 /src/answer/test.java

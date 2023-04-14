@@ -12,11 +12,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     private static final Rules rules = new Rules();
     private static final Answers answers = new Answers();
+    private static final History history = new History();
     private static final Json jsonHandler = new Json();
     private static final Scanner sc = new Scanner(System.in);
 
@@ -26,6 +28,7 @@ public class Main {
 
         loadRule();
         loadAnswer();
+        loadHistory();
         
         while (true) {
             System.out.println("-------------------");
@@ -36,26 +39,46 @@ public class Main {
             System.out.println("5. Display answers");
             System.out.println("6. Clear rules");
             System.out.println("7. Clear answers");
-            System.out.println("type q to quit program");
+            System.out.println("8. Display history");
+            System.out.println("9. Clear history");
+            System.out.println("type :q to quit program");
             System.out.println("-------------------");
             System.out.print("> ");
             String input = sc.nextLine();
 
-            if (input.equals("q")) break;
+            if (input.equals(":q")) break;
             if (input.equals("1")) start();
             if (input.equals("2")) addRule();
             if (input.equals("3")) addAnswer();
             if (input.equals("4")) displayRules();
             if (input.equals("5")) displayAnswers();
-            if (input.equals("6")) clear(true);
-            if (input.equals("7")) clear(false);
+            if (input.equals("6")) clear(0);
+            if (input.equals("7")) clear(1);
+            if (input.equals("8")) displayHistory();
+            if (input.equals("9")) clear(2);
         }
     }
 
-    public static void clear(boolean type) {
+    public static void clear(int type) {
         try {
-            if (type) jsonHandler.clear("rule.json");
-            else jsonHandler.clear("answer.json");
+            switch (type) {
+                case 0 -> {
+                    jsonHandler.clear("rule.json");
+                    if (rules.isEmpty()) return;
+                    rules.clear();
+                }
+                case 1 -> {
+                    jsonHandler.clear("answer.json");
+                    if (answers.isEmpty()) return;
+                    answers.clear();
+                }
+                case 2 -> {
+                    jsonHandler.clear("history.json");
+                    if (history.isEmpty()) return;
+                    history.clear();
+                }
+            }
+            System.out.println("Cleared...");
         } catch (IOException e) {
             System.out.println("Something went wrong");
             System.out.println("Error: " + e.getMessage());
@@ -83,6 +106,7 @@ public class Main {
 
         ArrayList<Answer> result = answers.validate(rules.getResultId());
         System.out.println("-------------------");
+        System.out.println("Result:");
         for (Answer answer: result) {
             System.out.printf("""
                     Title: %s
@@ -90,13 +114,22 @@ public class Main {
                     ---
                     """, answer.title(), answer.description());
         }
+
+        history.addHistory(result);
+        try {
+            jsonHandler.storeHistoryJson(history.getHistory(), "history.json");
+        } catch (IOException e) {
+            System.out.println("Something went wrong, cannot save to file");
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public static void displayRules() {
         System.out.println("-------------------");
+        System.out.println("Rules:");
         ArrayList<Rule> ruleArrayList = rules.getRules();
         if (ruleArrayList.isEmpty()) {
-            System.out.println("!!! Add rules first");
+            System.out.println("No rules yet...");
             return;
         }
 
@@ -111,9 +144,10 @@ public class Main {
 
     public static void displayAnswers() {
         System.out.println("-------------------");
+        System.out.println("Answers:");
         ArrayList<Answer> answerArrayList = answers.getAnswers();
         if (answerArrayList.isEmpty()) {
-            System.out.println("!!! Add answer first");
+            System.out.println("No answers yet...");
             return;
         }
 
@@ -127,6 +161,28 @@ public class Main {
         }
     }
 
+    public static void displayHistory() {
+        System.out.println("-------------------");
+        System.out.println("History:");
+        HashMap<Integer, ArrayList<Answer>> historyArrayList = history.getHistory();
+        if (historyArrayList == null || historyArrayList.isEmpty()) {
+            System.out.println("No history yet...");
+            return;
+        }
+
+        for (int num: historyArrayList.keySet()) {
+            System.out.println("No. " + num);
+            ArrayList<Answer> answers = historyArrayList.get(num);
+            for (Answer answer: answers) {
+                System.out.printf("""
+                      ---
+                      Title: %s
+                      Description: %s
+                    """, answer.title(), answer.description());
+            }
+        }
+    }
+
     public static void loadRule() {
         ArrayList<Rule> ruleArrayList;
         try {
@@ -135,7 +191,7 @@ public class Main {
             System.out.println("!!! Add rules first...");
             return;
         }
-        if (ruleArrayList.isEmpty()) {
+        if (ruleArrayList == null || ruleArrayList.isEmpty()) {
             System.out.println("!!! Add rules first...");
             return;
         }
@@ -150,25 +206,37 @@ public class Main {
             System.out.println("!!! Add answers first...");
             return;
         }
-        if (answerArrayList.isEmpty()) {
+        if (answerArrayList == null || answerArrayList.isEmpty()) {
             System.out.println("!!! Add answers first...");
             return;
         }
         answers.addAnswer(answerArrayList);
     }
 
+    public static void loadHistory() {
+        HashMap<Integer, ArrayList<Answer>> historyHashMap;
+        try {
+            historyHashMap = jsonHandler.getHistoryJson("history.json");
+        } catch (FileNotFoundException e) {
+            System.out.println("Something went wrong...");
+            return;
+        }
+
+        history.addHistory(historyHashMap);
+    }
+
     public static void addRule() {
         System.out.println("-------------------");
-        System.out.println("type q to quit");
+        System.out.println("type :q to quit");
         while (true) {
             System.out.println("---");
             System.out.print("Input ID: ");
             String id = sc.nextLine();
-            if (id.equals("q")) break;
+            if (id.equals(":q")) break;
 
             System.out.print("Input Rule: ");
             String rule = sc.nextLine();
-            if (rule.equals("q")) break;
+            if (rule.equals(":q")) break;
 
             if (id.isEmpty() || rule.isEmpty()) {
                 System.out.println("Must have a value");
@@ -176,6 +244,7 @@ public class Main {
             }
 
             rules.addRule(new Rule(id, rule));
+            System.out.println("Rule Added...");
         }
 
         ArrayList<Rule> newRule = rules.getRules();
@@ -189,20 +258,20 @@ public class Main {
 
     public static void addAnswer() {
         System.out.println("-------------------");
-        System.out.println("type q to quit");
+        System.out.println("type :q to quit");
         while (true) {
             System.out.println("---");
             System.out.print("Input Title: ");
             String title = sc.nextLine();
-            if (title.equals("q")) break;
+            if (title.equals(":q")) break;
 
             System.out.print("Input Description: ");
             String description = sc.nextLine();
-            if (description.equals("q")) break;
+            if (description.equals(":q")) break;
 
             System.out.print("Input IDs (seperated by comma): ");
             String ids = sc.nextLine();
-            if (ids.equals("q")) break;
+            if (ids.equals(":q")) break;
 
             if (title.isEmpty() || description.isEmpty() || ids.isEmpty()) {
                 System.out.println("Must have a value");
@@ -210,8 +279,9 @@ public class Main {
             }
 
             ArrayList<String> answerId = new ArrayList<>(
-                    Arrays.asList(ids.split(",")));
+                    Arrays.asList(ids.replaceAll("\\s+","").split(",")));
             answers.addAnswer(new Answer(answerId, title, description));
+            System.out.println("Answer Added...");
         }
 
         ArrayList<Answer> newAnswer = answers.getAnswers();
