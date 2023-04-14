@@ -37,9 +37,9 @@ public class Main {
             System.out.println("3. Add answer");
             System.out.println("4. Display rules");
             System.out.println("5. Display answers");
-            System.out.println("6. Clear rules");
-            System.out.println("7. Clear answers");
-            System.out.println("8. Display history");
+            System.out.println("6. Display history");
+            System.out.println("7. Clear rules");
+            System.out.println("8. Clear answers");
             System.out.println("9. Clear history");
             System.out.println("type :q to quit program");
             System.out.println("-------------------");
@@ -52,9 +52,9 @@ public class Main {
             if (input.equals("3")) addAnswer();
             if (input.equals("4")) displayRules();
             if (input.equals("5")) displayAnswers();
-            if (input.equals("6")) clear(0);
-            if (input.equals("7")) clear(1);
-            if (input.equals("8")) displayHistory();
+            if (input.equals("6")) displayHistory();
+            if (input.equals("7")) clear(0);
+            if (input.equals("8")) clear(1);
             if (input.equals("9")) clear(2);
         }
     }
