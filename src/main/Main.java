@@ -29,7 +29,8 @@ public class Main {
         loadRule();
         loadAnswer();
         loadHistory();
-        
+
+        label:
         while (true) {
             System.out.println("-------------------");
             System.out.println("1. Start");
@@ -46,16 +47,19 @@ public class Main {
             System.out.print("> ");
             String input = sc.nextLine();
 
-            if (input.equals(":q")) break;
-            if (input.equals("1")) start();
-            if (input.equals("2")) addRule();
-            if (input.equals("3")) addAnswer();
-            if (input.equals("4")) displayRules();
-            if (input.equals("5")) displayAnswers();
-            if (input.equals("6")) displayHistory();
-            if (input.equals("7")) clear(0);
-            if (input.equals("8")) clear(1);
-            if (input.equals("9")) clear(2);
+            switch (input) {
+                case ":q" -> {break label;}
+                case "1" -> start();
+                case "2" -> addRule();
+                case "3" -> addAnswer();
+                case "4" -> displayRules();
+                case "5" -> displayAnswers();
+                case "6" -> displayHistory();
+                case "7" -> clear(0);
+                case "8" -> clear(1);
+                case "9" -> clear(2);
+
+            }
         }
     }
 
