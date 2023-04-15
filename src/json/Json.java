@@ -65,13 +65,13 @@ public class Json {
         write(gson.toJson(answers));
     }
 
-    public HashMap<Integer, ArrayList<Answer>> getHistoryJson(String fileName) throws FileNotFoundException {
+    public HashMap<String, ArrayList<Answer>> getHistoryJson(String fileName) throws FileNotFoundException {
         setPath(fileName);
-        Type historyType = new TypeToken<HashMap<Integer, ArrayList<Answer>>>(){}.getType();
+        Type historyType = new TypeToken<HashMap<String, ArrayList<Answer>>>(){}.getType();
         return gson.fromJson(read(), historyType);
     }
 
-    public void storeHistoryJson (HashMap<Integer, ArrayList<Answer>> history, String fileName) throws IOException {
+    public void storeHistoryJson (HashMap<String, ArrayList<Answer>> history, String fileName) throws IOException {
         setPath(fileName);
         write(gson.toJson(history));
     }

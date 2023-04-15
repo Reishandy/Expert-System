@@ -83,7 +83,6 @@ public class Main {
             System.out.println("Something went wrong");
             System.out.println("Error: " + e.getMessage());
         }
-
     }
 
     public static void start() {
@@ -109,9 +108,9 @@ public class Main {
         System.out.println("Result:");
         for (Answer answer: result) {
             System.out.printf("""
+                    ---
                     Title: %s
                     Description: %s
-                    ---
                     """, answer.title(), answer.description());
         }
 
@@ -135,9 +134,9 @@ public class Main {
 
         for (Rule rule: ruleArrayList) {
             System.out.printf("""
+                    ---
                     Rule: %s
                     ID: %s
-                    ---
                     """, rule.rule(), rule.id());
         }
     }
@@ -153,10 +152,10 @@ public class Main {
 
         for (Answer answer: answerArrayList) {
             System.out.printf("""
+                    ---
                     Title: %s
                     Description: %s
                     IDs: %s
-                    ---
                     """, answer.title(), answer.description(), answer.answerId());
         }
     }
@@ -164,20 +163,21 @@ public class Main {
     public static void displayHistory() {
         System.out.println("-------------------");
         System.out.println("History:");
-        HashMap<Integer, ArrayList<Answer>> historyArrayList = history.getHistory();
+        System.out.println("-------------------");
+        HashMap<String, ArrayList<Answer>> historyArrayList = history.getHistory();
         if (historyArrayList == null || historyArrayList.isEmpty()) {
             System.out.println("No history yet...");
             return;
         }
 
-        for (int num: historyArrayList.keySet()) {
-            System.out.println("No. " + num);
-            ArrayList<Answer> answers = historyArrayList.get(num);
+        for (String date: historyArrayList.keySet()) {
+            System.out.println(date);
+            ArrayList<Answer> answers = historyArrayList.get(date);
             for (Answer answer: answers) {
                 System.out.printf("""
-                      ---
-                      Title: %s
-                      Description: %s
+                        ---
+                        Title: %s
+                        Description: %s
                     """, answer.title(), answer.description());
             }
         }
@@ -214,7 +214,7 @@ public class Main {
     }
 
     public static void loadHistory() {
-        HashMap<Integer, ArrayList<Answer>> historyHashMap;
+        HashMap<String, ArrayList<Answer>> historyHashMap;
         try {
             historyHashMap = jsonHandler.getHistoryJson("history.json");
         } catch (FileNotFoundException e) {
